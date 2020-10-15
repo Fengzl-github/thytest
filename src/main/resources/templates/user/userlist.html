@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" th:href="@{/common/element/element-index.css}">
+    <script type="text/javascript" th:src="@{/common/jquery/jquery-3.2.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/common/vue/vue.min.js}"></script>
+    <script type="text/javascript" th:src="@{/common/element/element-index.js}"></script>
+    <script type="text/javascript" th:src="@{/common/axios/axios.min.js}"></script>
+    <script type="text/javascript" th:src="@{/common/myutil/axios_util.js}"></script>
+    <script type="text/javascript" th:src="@{/common/myutil/my_util.js}"></script>
+</head>
+<body>
+    <div id="appVM" v-cloak>
+        <el-card>
+            <div>
+                <el-form :inline="true" :model="queryForm" class="demo-form-inline">
+                    <el-form-item label="工号">
+                        <el-input v-model="queryForm.uid" placeholder="请输入工号"></el-input>
+                    </el-form-item>
+                    <el-form-item label="姓名">
+                        <el-input v-model="queryForm.uname" placeholder="请输入姓名"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" @click="queryUser">查询</el-button>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" @click="resetQuery">重置</el-button>
+                    </el-form-item>
+
+                    <el-button style="float: right; margin-right: 150px" type="primary" @click="addData">新增</el-button>
+                </el-form>
+            </div>
+            <el-table :height="tableHeight" :data="tableData" stripe border highlight-current-row style="width: 98%">
+                <el-table-column type="index" width="50">
+                </el-table-column>
+                <el-table-column prop="uid" label="工号"></el-table-column>
+                <el-table-column prop="uname" label="姓名"></el-table-column>
+                <el-table-column prop="sex" label="性别"></el-table-column>
+                <el-table-column prop="age" label="年龄"></el-table-column>
+                <el-table-column prop="groupId" label="所在组"></el-table-column>
+                <el-table-column prop="isDel" label="状态">
+                    <template slot-scope="scope">
+                        <span v-if="scope.row.isDel == 0">正常</span>
+                        <span v-if="scope.row.isDel == 1">禁用</span>
+                    </template>
+                </el-table-column>
+                <el-table-column >
+                    <template slot-scope="scope">
+                        <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                        <el-button size="mini" type="danger" @click="handleRemove(scope.$index, scope.row)">禁用</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <el-pagination
+                    background
+                    :page-sizes="[10, 50, 100, 200]"
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :page-size="tablePage.pagesize"
+                    :current-page.sync="tablePage.currentPage"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="tablePage.total">
+            </el-pagination>
+        </el-card>
+        <!--edit页面 抽屉-->
+        <el-drawer ref="drawer" :title="EditDrawer.title" :visible.sync="EditDrawer.drawer" direction="rtl" destroy-on-close="true"
+                   custom-class="demo-drawer" :show-close="false" size="60%" :before-close="handleClose">
+            <div class="demo-drawer__content" style="margin: 5px 50px 10px 5px">
+                <el-form label-position="right" label-width="100px" :model="EditForm">
+                    <el-form-item label="工号">
+                        <el-input v-model="EditForm.uid"></el-input>
+                    </el-form-item>
+                    <el-form-item label="姓名">
+                        <el-input v-model="EditForm.uname"></el-input>
+                    </el-form-item>
+                    <el-form-item label="性别">
+                        <el-input v-model="EditForm.sex"></el-input>
+                    </el-form-item>
+                    <el-form-item label="年龄">
+                        <el-input v-model="EditForm.age"></el-input>
+                    </el-form-item>
+                    <el-form-item label="所在组">
+                        <el-input v-model="EditForm.groupId"></el-input>
+                    </el-form-item>
+                    <el-form-item label="状态">
+                        <template>
+                            <el-radio-group v-model="EditForm.isDel">
+                                <el-radio :label="0">正常</el-radio>
+                                <el-radio :label="1">禁用</el-radio>
+                            </el-radio-group>
+                        </template>
+                    </el-form-item>
+                </el-form>
+                <div class="demo-drawer__footer" style="text-align: right">
+                    <el-button >取 消</el-button>
+                    <el-button type="primary" @click="$refs.drawer.closeDrawer()">保 存</el-button>
+                </div>
+            </div>
+        </el-drawer>
+    </div>
+</body>
+
+<script>
+    let vSearchFilter = "";//查询条件全局变量
+    let vData={
+        tableHeight: $(document).height() - 150,
+        queryForm:{
+            uid: '',
+            uname: ''
+        },
+        tableData: [],
+        tablePage: {
+            pagesize: 10,
+            currentPage: 1,
+            total: 0
+        },
+        EditDrawer: {
+            title:'',
+            drawer: false
+        },
+        EditForm: {}
+
+    };
+
+    let vm = new Vue({
+        el: '#appVM',
+        data: vData,
+        method: {
+            queryUser,
+            resetQuery,
+            handleEdit,
+            handleRemove,
+            handleSizeChange,
+            handleCurrentChange,
+            handleClose,
+            saveData,
+            addData
+
+        }
+
+    });
+
+    $(function () {
+        getData();
+    });
+
+    function getData() {
+        let lJsonData = $.extend({}, vData.queryForm, vData.tablePage);
+
+        axios.post("/user/getuserlistdata",lJsonData)
+            .then(function (response) {
+                let lret = response.data;
+                console.log(lret);
+                vData.tableData = lret.data.content;
+                vData.tablePage.total = lret.data.total;
+            })
+            .catch(function (error) {
+
+            });
+
+    }
+
+    function queryUser() {
+        vData.tablePage.currentPage = 1;
+        getData();
+    }
+
+    function resetQuery() {
+        vData.queryForm.uid = '';
+        vData.queryForm.uname = '';
+    }
+    function handleEdit(idx, row) {
+        console.log("编辑第 "+idx+"行，数据："+row);
+        vData.EditDrawer.drawer = true;
+        vData.EditDrawer.title = "编辑用户-"+row.uname;
+        vData.EditForm = row;
+    }
+    function handleRemove(idx, row) {
+        console.log("禁用第 ${idx}行")
+    }
+    function handleSizeChange(val) {
+        console.log("每页 "+val+" 条");
+        vData.tablePage.currentPage = 1;
+        vData.tablePage.pagesize = val;
+        getData();
+    }
+    function handleCurrentChange(val) {
+        console.log("当前页: ${val} ");
+        getData();
+    }
+    
+    function handleClose(done) {
+        vm.$confirm('确认关闭？')
+            .then(_=> {
+                done();
+            })
+            .catch(_=>{});
+    }
+
+    function saveData() {
+        console.log("保存")
+    }
+    function addData() {
+        console.log("新增");
+        vData.EditDrawer.drawer = true;
+    }
+
+</script>
+
+<style>
+    [v-cloak]{
+        display: none;
+    }
+
+</style>
+</html>

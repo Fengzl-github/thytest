@@ -1,0 +1,19 @@
+.loginCard {
+    position: absolute;
+    top: 10%;
+    width: 400px;
+    right: 100px;
+    font-family: "lato", sans-serif;
+    font-weight: 300;
+
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    background: #FFF url(/images/login/bg.png) no-repeat 0 0;
+    overflow-x:hidden;
+    overflow-y:hidden;
+    background-size:100%;
+}

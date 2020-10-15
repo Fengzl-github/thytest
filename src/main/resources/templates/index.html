@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ultra_SelfServer 考试系统</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/login/index.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/common/element/element-index.css}">
+    <script type="text/javascript" th:src="@{/common/jquery/jquery-3.2.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/common/vue/vue.min.js}"></script>
+    <script type="text/javascript" th:src="@{/common/element/element-index.js}"></script>
+    <script type="text/javascript" th:src="@{/common/axios/axios.min.js}"></script>
+    <script type="text/javascript" th:src="@{/common/myutil/axios_util.js}"></script>
+    <script type="text/javascript" th:src="@{/common/myutil/my_util.js}"></script>
+
+
+</head>
+<body>
+<div class="loginCard">
+    <div id="appVM">
+        <el-card class="box-card">
+            <div slot="header" class="clearfix">
+                <span><i class="el-icon-phone-outline"> Ultra_SelfServer 考试系统</i></span>
+            </div>
+            <div>
+                <el-form :model="form" ref="form">
+                    <el-form-item label="" prop="uid" :rules="[{required: true, message: '账号不能为空'}]">
+                        <el-input v-model="form.uid" clearable autocomplete="off" placeholder="账号" @keyup.enter.native="login"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="" prop="pwd" :rules="[{required: true, message: '密码不能为空'}]">
+                        <el-input v-model="form.pwd" show-password autocomplete="off" placeholder="密码" @keyup.enter.native="login"></el-input>
+                    </el-form-item>
+                </el-form>
+                <div style="color:red;">
+                    {{retInfo}}
+                </div>
+                <el-row style="padding-left:75%;">
+                    <el-button type="success" @click="login">登录</el-button>
+                </el-row>
+            </div>
+        </el-card>
+    </div>
+</div>
+</body>
+
+<script type="text/javascript">
+    let vData={
+        retInfo: '',
+        form: {
+            uid: '',
+            pwd: ''
+        }
+    }
+
+    let vm = new Vue({
+        el: '#appVM',
+        data: vData,
+        method: {
+            login
+        }
+    })
+
+    function login() {
+        vm.$refs['form'].validate((valid) => {
+            if (valid) {
+                vData.retInfo = "";
+                submitLogin();
+            } else {
+                return false;
+            }
+        });
+    }
+
+    function submitLogin(){
+        axios.post("sys/login/verification", vData.form)
+        .then(function (response) {
+            let result = response.data;
+            if (result.code == 200){
+                let user = result.data.content;
+                let loginToken = result.data.loginToken;
+                myUtil.setToken(loginToken);
+
+                document.location.href = "/myindex";
+            }else {
+                vData.retInfo = result.data.msg;
+            }
+        })
+        .catch(function (error) {
+            console.log("系统错误");
+        })
+    }
+</script>
+</html>
