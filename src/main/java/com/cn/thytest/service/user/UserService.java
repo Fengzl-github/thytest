@@ -1,9 +1,11 @@
 package com.cn.thytest.service.user;
 
 import com.cn.common.vo.ResResult;
+import com.cn.thytest.dto.user.GroupsMemerDTO;
 import com.cn.thytest.dto.user.UserPageDTO;
 import com.cn.thytest.entity.login.User;
 import com.cn.thytest.vo.Pageparam;
+import org.springframework.data.domain.Page;
 import org.springframework.validation.annotation.Validated;
 
 /**
@@ -13,7 +15,7 @@ import org.springframework.validation.annotation.Validated;
  **/
 @Validated
 public interface UserService {
-    ResResult getUserListData(UserPageDTO userPageDTO);
+    Page<GroupsMemerDTO> getUserListData(UserPageDTO userPageDTO);
 
     ResResult addUser(User user);
 }

@@ -1,5 +1,6 @@
 package com.cn.thytest.controller.user;
 
+import com.cn.common.vo.ResCode;
 import com.cn.common.vo.ResResult;
 import com.cn.thytest.dto.user.UserPageDTO;
 import com.cn.thytest.entity.login.User;
@@ -32,7 +33,10 @@ public class UserController {
     **/
     @PostMapping("/getuserlistdata")
     public ResResult getUserListData(@RequestBody UserPageDTO userPageDTO){
-        return userService.getUserListData(userPageDTO);
+         userService.getUserListData(userPageDTO);
+         return ResCode.OK;
+
+
     }
 
 

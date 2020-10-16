@@ -19,21 +19,24 @@ import java.lang.annotation.Target;
 public class SysMenu {
 
     @Id
-    @Column(nullable = false, unique = true)
+    @Column(columnDefinition = "varchar(10) NOT NULL COMMENT '菜单id'", unique = true)
     private String id;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "varchar(50) NOT NULL COMMENT '菜单名'")
     private String title;
 
-    @Column
+    @Column(columnDefinition = "varchar(80) DEFAULT '' COMMENT '连接地址'")
     private String url;
 
-    @Column
+    @Column(columnDefinition = "varchar(50) DEFAULT '' COMMENT '图标'")
     private String icon;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "varchar(10) DEFAULT 0 COMMENT '上级id'")
     private String pId;
 
-    @Column(nullable = false)
-    private Integer isDel;
+    @Column(columnDefinition = "int(4) UNSIGNED DEFAULT 3 COMMENT '等级：1 普通账号展示菜单 2 管理员账号 3 全部展示'")
+    private Integer level;
+
+    @Column(columnDefinition = "int(4) UNSIGNED DEFAULT 1 COMMENT '是否可见：0 隐藏，1 可见'")
+    private Integer visible;
 }
