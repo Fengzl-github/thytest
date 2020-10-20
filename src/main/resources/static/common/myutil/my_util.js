@@ -141,7 +141,6 @@ var myUtil = (function () {
 
     var nSupport = window.sessionStorage;
     var set = function (strKey, strValue) {
-        strValue = escape(strValue);
         if (nSupport == true)
             window.sessionStorage.setItem(strKey, strValue);
         else

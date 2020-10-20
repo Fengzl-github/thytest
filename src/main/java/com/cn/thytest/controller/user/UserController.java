@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,7 +76,7 @@ public class UserController {
      * @return com.cn.common.vo.ResResult
     **/
     @PostMapping("/addUser")
-    public ResResult addUser(@RequestBody User user){
+    public ResResult addUser(@RequestBody User user) throws UnsupportedEncodingException {
         return userService.addUser(user);
     }
 }

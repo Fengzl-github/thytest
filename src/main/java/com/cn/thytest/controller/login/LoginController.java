@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.UnsupportedEncodingException;
+
 /**
  * @Author fengzhilong
  * @Date 2020/9/24 14:51
@@ -33,7 +35,7 @@ public class LoginController {
     **/
     @PassToken
     @PostMapping("/verification")
-    public ResResult verification(@RequestBody User user) throws FzlException {
+    public ResResult verification(@RequestBody User user) throws FzlException, UnsupportedEncodingException {
 
         return loginService.verification(user);
     }

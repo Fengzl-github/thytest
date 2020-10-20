@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 /**
@@ -65,8 +66,9 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public ResResult addUser(User user) {
+    public ResResult addUser(User user) throws UnsupportedEncodingException {
         if (myString.isNotEmpty(user.getUid())){
+            user.setPwd(myString.base64Encode(user.getPwd()));
             userDao.saveAndFlush(user);
         }
 
