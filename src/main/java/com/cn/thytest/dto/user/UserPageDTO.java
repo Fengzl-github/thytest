@@ -1,10 +1,7 @@
 package com.cn.thytest.dto.user;
 
-import com.cn.thytest.entity.login.User;
-import com.cn.thytest.vo.Pageparam;
 import lombok.Data;
 
-import javax.persistence.Column;
 
 /**
  * @Author fengzhilong

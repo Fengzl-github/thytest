@@ -1,6 +1,8 @@
 package com.cn.thytest.service.topic.impl;
 
 import com.cn.common.exception.FzlException;
+import com.cn.common.jpa.util.PageUtil;
+import com.cn.common.jpa.vo.Pageparam;
 import com.cn.common.utils.DateTime;
 import com.cn.common.utils.myString;
 import com.cn.common.vo.ResCode;
@@ -9,8 +11,6 @@ import com.cn.thytest.dao.topic.ExamTopicDao;
 import com.cn.thytest.dto.topic.ExamTopicDTO;
 import com.cn.thytest.entity.topic.ExamTopic;
 import com.cn.thytest.service.topic.ExamTopicService;
-import com.cn.thytest.utils.PageUtil;
-import com.cn.thytest.vo.Pageparam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
