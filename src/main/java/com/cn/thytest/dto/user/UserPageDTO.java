@@ -25,6 +25,8 @@ public class UserPageDTO {
 
     private int groupId;
 
+    private String groupName;
+
     private int isDel;
 
     private Integer pagesize; //每页数

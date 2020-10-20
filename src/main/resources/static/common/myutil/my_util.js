@@ -118,9 +118,16 @@ var myUtil = (function () {
     var setToken = function (strToken) {
         set("myToken_Key_jwt", strToken, 3600 * 24);
     }
-
     var getToken = function () {
         return get("myToken_Key_jwt");
+    }
+
+    //设置Uname存储
+    var setUname = function (strUname) {
+        set("myUname_Key_jwt", strUname, 3600 * 24);
+    }
+    var getUname = function () {
+        return get("myUname_Key_jwt");
     }
 
     //设置自定义主题颜色
@@ -160,6 +167,8 @@ var myUtil = (function () {
         getAccountPwd:getAccountPwd,
         setToken: setToken,
         getToken: getToken,
+        setUname: setUname,
+        getUname: getUname,
         getPmAgent: getPmAgent,
         setPmAgent: setPmAgent,
         setMyTheme: setMyTheme,

@@ -45,7 +45,7 @@
                 <el-menu-item class="fr">
                     <el-dropdown @command="handleCommand">
                             <span style="color:#FFF">
-                                <img src="images/index/tx.jpg" class="nav-img">管理员
+                                <img src="images/index/tx.jpg" class="nav-img">{{ LoginName }}
                             </span>
                         <el-dropdown-menu slot="dropdown">
                             <el-dropdown-item command="lout">注销</el-dropdown-item>
@@ -135,7 +135,7 @@
                     <el-tabs style="width: calc(100% - 20px);" v-model="editableTabsValue" tab-position="top"
                              @tab-remove="removeTab">
                         <el-tab-pane key="a" name="a">
-                            <span slot="label" :style="tabStyle"><i class="el-icon-bell"></i>控制面板</span>
+                            <span slot="label" :style="tabStyle"><i class="el-icon-bell"></i>首页</span>
                             <iframe src="/main" scrolling="auto" frameborder="0" marginheight="0"
                                     marginwidth="0" :style="iframestyle"></iframe>
                         </el-tab-pane>
@@ -166,6 +166,7 @@
 </body>
 <script>
     let vData = {
+        LoginName: '',
         isFullscreen: false,
         iframestyle: "minHeight:" + (window.innerHeight - 140) + "px;width:100%;",
         mainStyle: {
@@ -271,6 +272,7 @@
     })
 
     $(function () {
+        vData.LoginName = myUtil.getUname();
         ThemeColor(0);
         testLogin();
         getMenuData();

@@ -63,8 +63,8 @@ public class ExamTopicServiceImpl implements ExamTopicService {
         Pageable pageable = PageUtil.getPageable(pageparam.getCurrentPage(), pageparam.getPagesize(), "tpId");
         Page<ExamTopic> page = examTopicDao.findAll(specification,pageable);
         return ResCode.OK.msg("查询成功")
-                .putData("total", page.getTotalElements())
-                .putData("content", page.getContent());
+                .putData("content", page.getContent())
+                .putData("total", page.getTotalElements());
     }
 
     @Override

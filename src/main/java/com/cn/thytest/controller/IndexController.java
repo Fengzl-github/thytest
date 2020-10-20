@@ -53,6 +53,12 @@ public class IndexController {
     public String userList() throws FzlException{
         return "user/userlist";
     }
+    //groups
+    @PassToken
+    @RequestMapping("/user/groupslist")
+    public String groupslist() throws FzlException{
+        return "user/groupslist";
+    }
 
     //题库
     @PassToken
