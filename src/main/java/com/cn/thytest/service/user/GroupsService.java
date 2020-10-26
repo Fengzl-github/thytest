@@ -18,4 +18,6 @@ public interface GroupsService {
     ResResult getGroupsPage(UserPageDTO userPageDTO);
 
     Groups addGroups(Groups groups);
+
+    ResResult getGroupsOptions();
 }

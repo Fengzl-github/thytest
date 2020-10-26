@@ -5,6 +5,7 @@ import com.cn.common.vo.ResResult;
 import com.cn.thytest.dto.user.GroupsMemerDTO;
 import com.cn.thytest.dto.user.UserPageDTO;
 import com.cn.thytest.entity.login.User;
+import com.cn.thytest.service.user.GroupsService;
 import com.cn.thytest.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,6 +29,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private GroupsService groupsService;
 
 
     /**
@@ -67,16 +71,28 @@ public class UserController {
 
     }
 
+    /**
+     * @Author fengzhilong
+     * @Desc //TODO 获取组信息
+     * @Date 2020/10/21 16:15
+     * @Param []
+     * @return com.cn.common.vo.ResResult
+    **/
+    @RequestMapping("/getGroupsData")
+    public ResResult getGroupsData(){
+        
+        return groupsService.getGroupsOptions();
+    }
 
     /**
      * @Author fengzhilong
-     * @Desc //TODO 添加账号
+     * @Desc //TODO 保存账号信息(新增和修改)
      * @Date 2020/10/12 14:36
      * @Param [userPageDTO]
      * @return com.cn.common.vo.ResResult
     **/
-    @PostMapping("/addUser")
-    public ResResult addUser(@RequestBody User user) throws UnsupportedEncodingException {
-        return userService.addUser(user);
+    @PostMapping("/saveUser")
+    public ResResult saveUser(@RequestBody GroupsMemerDTO groupsMemerDTO) throws UnsupportedEncodingException {
+        return userService.saveUser(groupsMemerDTO);
     }
 }

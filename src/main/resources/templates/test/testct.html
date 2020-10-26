@@ -14,6 +14,27 @@
             点我打开
         </el-button>
 
+
+        <el-table
+                :data="tableData"
+                style="width: 100%">
+            <el-table-column
+                    prop="date"
+                    label="日期"
+                    width="180">
+                <el-select v-model="value" clearable placeholder="请选择">
+                    <el-option
+                            v-for="item in gIdoptions"
+                            :key="item.gid"
+                            :label="item.gname"
+                            :value="item.gid">
+                    </el-option>
+                </el-select>
+            </el-table-column>
+
+        </el-table>
+
+
         <el-drawer
                 title="我是标题"
                 :visible.sync="drawer"
@@ -27,6 +48,8 @@
 <script>
     let vData={
         drawer: false,
+        value:1,
+        gIdoptions:[{"gid":1,"gname":"业务组1"},{"gid":2,"gname":"业务组2"},{"gid":3,"gname":"业务组3"},{"gid":4,"gname":"业务组4444"},{"gid":"0","gname":"暂无分组"}]
     };
 
     let vm = new Vue({

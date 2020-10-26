@@ -39,6 +39,7 @@ public class LoginServiceImpl implements LoginService {
 
         User content = loginDao.findByUidAndPwd(user.getUid(), myString.base64Encode(user.getPwd()));
         if (content == null){
+            //content = loginDao.findByLoginNameAndPwd(user.getUid(), myString.base64Encode(user.getPwd()));
             log.info("【"+user.getUid()+"】-> 账号或密码错误");
             return ResCode.ERROR.msg("账号或密码错误");
         }else {

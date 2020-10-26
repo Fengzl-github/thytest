@@ -55,6 +55,13 @@
                         <span v-if="scope.row.tpDifficultyLevel == 5">特别困难</span>
                     </template>
                 </el-table-column>
+                <el-table-column prop="optionA" label="选项A"></el-table-column>
+                <el-table-column prop="optionB" label="选项B"></el-table-column>
+                <el-table-column prop="optionC" label="选项C"></el-table-column>
+                <el-table-column prop="optionD" label="选项D"></el-table-column>
+                <el-table-column prop="optionE" label="选项E"></el-table-column>
+                <el-table-column prop="optionF" label="选项F"></el-table-column>
+                <el-table-column prop="optionG" label="选项G"></el-table-column>
                 <el-table-column prop="status" label="状态">
                     <template slot-scope="scope">
                         <span v-if="scope.row.status == 0">正常</span>
@@ -110,6 +117,27 @@
                                     :value="item.value">
                             </el-option>
                         </el-select>
+                    </el-form-item>
+                    <el-form-item label="选项A">
+                        <el-input v-model="EditForm.optionA"></el-input>
+                    </el-form-item>
+                    <el-form-item label="选项B">
+                        <el-input v-model="EditForm.optionB"></el-input>
+                    </el-form-item>
+                    <el-form-item label="选项C">
+                        <el-input v-model="EditForm.optionC"></el-input>
+                    </el-form-item>
+                    <el-form-item label="选项D">
+                        <el-input v-model="EditForm.optionD"></el-input>
+                    </el-form-item>
+                    <el-form-item label="选项E">
+                        <el-input v-model="EditForm.optionE"></el-input>
+                    </el-form-item>
+                    <el-form-item label="选项F">
+                        <el-input v-model="EditForm.optionF"></el-input>
+                    </el-form-item>
+                    <el-form-item label="选项G">
+                        <el-input v-model="EditForm.optionG"></el-input>
                     </el-form-item>
                     <el-form-item label="状态">
                         <template>
@@ -257,14 +285,10 @@
                     .then(function (response) {
                         let lret = response.data;
                         console.log("lret", lret);
-
-                        if (lret.code == 200){
-                            myEl.elAlert('success', lret.msg);
+                        if (lret.msg == 200){
                             getData();
-                        }else{
-                            myEl.elAlert('error', lret.msg);
                         }
-
+                        myEl.elAlert(lret.code, lret.msg);
                     })
                     .catch(function (error) {
 

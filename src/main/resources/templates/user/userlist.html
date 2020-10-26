@@ -37,9 +37,12 @@
                 </el-table-column>
                 <el-table-column prop="uid" label="工号"></el-table-column>
                 <el-table-column prop="uname" label="姓名"></el-table-column>
+                <el-table-column prop="tel" label="电话"></el-table-column>
+                <el-table-column prop="email" label="邮箱"></el-table-column>
                 <el-table-column prop="sex" label="性别"></el-table-column>
                 <el-table-column prop="age" label="年龄"></el-table-column>
-                <el-table-column prop="groupId" label="所在组"></el-table-column>
+                <el-table-column prop="groupName" label="所在组"></el-table-column>
+                <el-table-column prop="addr" label="地址"></el-table-column>
                 <el-table-column prop="isDel" label="状态">
                     <template slot-scope="scope">
                         <span v-if="scope.row.isDel == 0">正常</span>
@@ -68,25 +71,44 @@
         <el-drawer ref="drawer" :title="EditDrawer.title" :visible.sync="EditDrawer.drawer" direction="rtl" destroy-on-close="true"
                    custom-class="demo-drawer" :show-close="false" size="60%" :before-close="handleClose">
             <div class="demo-drawer__content" style="margin: 5px 50px 10px 5px">
-                <el-form label-position="right" label-width="100px" :model="EditForm">
+                <el-form label-position="right" label-width="100px" :model="EditForm" >
                     <el-form-item label="工号">
-                        <el-input v-model="EditForm.uid"></el-input>
+                        <el-input class="fromInput" v-model="EditForm.uid" disabled></el-input>
+                    </el-form-item>
+                    <el-form-item label="登录名">
+                        <el-input class="fromInput" v-model="EditForm.loginName"></el-input>
                     </el-form-item>
                     <el-form-item label="姓名">
-                        <el-input v-model="EditForm.uname"></el-input>
+                        <el-input class="fromInput" v-model="EditForm.uname"></el-input>
+                    </el-form-item>
+                    <el-form-item label="电话">
+                        <el-input class="fromInput" v-model="EditForm.tel"></el-input>
+                    </el-form-item>
+                    <el-form-item label="邮箱">
+                        <el-input class="fromInput" v-model="EditForm.email"></el-input>
                     </el-form-item>
                     <el-form-item label="性别">
-                        <el-input v-model="EditForm.sex"></el-input>
+                        <el-input class="fromInput" v-model="EditForm.sex"></el-input>
                     </el-form-item>
                     <el-form-item label="年龄">
-                        <el-input v-model="EditForm.age"></el-input>
+                        <el-input class="fromInput" v-model="EditForm.age"></el-input>
                     </el-form-item>
                     <el-form-item label="所在组">
-                        <el-input v-model="EditForm.groupId"></el-input>
+                        <el-select v-model="EditForm.groupId">
+                            <el-option
+                                    v-for="item in gIdoptions"
+                                    :key="item.gid"
+                                    :label="item.gname"
+                                    :value="item.gid">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="地址">
+                        <el-input class="fromInput" v-model="EditForm.addr"></el-input>
                     </el-form-item>
                     <el-form-item label="状态">
                         <template>
-                            <el-radio-group v-model="EditForm.isDel">
+                            <el-radio-group class="fromInput" v-model="EditForm.isDel" disabled>
                                 <el-radio :label="0">正常</el-radio>
                                 <el-radio :label="1">禁用</el-radio>
                             </el-radio-group>
@@ -94,8 +116,8 @@
                     </el-form-item>
                 </el-form>
                 <div class="demo-drawer__footer" style="text-align: right">
-                    <el-button >取 消</el-button>
-                    <el-button type="primary" @click="$refs.drawer.closeDrawer()">保 存</el-button>
+                    <el-button @click="$refs.drawer.closeDrawer()">取 消</el-button>
+                    <el-button type="primary" @click="saveData">保 存</el-button>
                 </div>
             </div>
         </el-drawer>
@@ -103,7 +125,6 @@
 </body>
 
 <script>
-    let vSearchFilter = "";//查询条件全局变量
     let vData={
         tableHeight: $(document).height() - 150,
         queryForm:{
@@ -120,7 +141,8 @@
             title:'',
             drawer: false
         },
-        EditForm: {}
+        EditForm: {},
+        gIdoptions:[]
 
     };
 
@@ -143,6 +165,7 @@
     });
 
     $(function () {
+        getGroupsData();
         getData();
     });
 
@@ -161,6 +184,16 @@
             });
 
     }
+    function getGroupsData() {
+        axios.post("/user/getGroupsData")
+            .then(function (response) {
+                let lret = response.data;
+                vData.gIdoptions = lret.data.content;
+            })
+            .catch(function (error) {
+
+            });
+    }
 
     function queryUser() {
         vData.tablePage.currentPage = 1;
@@ -172,7 +205,6 @@
         vData.queryForm.uname = '';
     }
     function handleEdit(idx, row) {
-        console.log("编辑第 "+idx+"行，数据："+row);
         vData.EditDrawer.drawer = true;
         vData.EditDrawer.title = "编辑用户-"+row.uname;
         vData.EditForm = row;
@@ -187,24 +219,33 @@
         getData();
     }
     function handleCurrentChange(val) {
-        console.log("当前页: ${val} ");
         getData();
     }
     
     function handleClose(done) {
-        vm.$confirm('确认关闭？')
+        /*vm.$confirm('确认关闭？')
             .then(_=> {
-                done();
+
             })
-            .catch(_=>{});
+            .catch(_=>{});*/
+        done();
     }
 
     function saveData() {
-        console.log("保存")
+        console.log("保存");
+        axios.post("/user/saveUser",vData.EditForm)
+            .then(function (response) {
+                let lret = response.data;
+                console.log("lret== "+lret);
+                myEl.elAlert(lret.data.code, lret.data.msg);
+            })
+            .catch(function (error) {
+
+            })
     }
     function addData() {
-        console.log("新增");
         vData.EditDrawer.drawer = true;
+        vData.EditForm = [];
     }
 
 </script>
@@ -212,6 +253,9 @@
 <style>
     [v-cloak]{
         display: none;
+    }
+    .fromInput {
+        width: 217px;
     }
 
 </style>

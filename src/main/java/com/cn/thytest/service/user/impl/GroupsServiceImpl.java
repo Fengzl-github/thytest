@@ -20,6 +20,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.awt.image.RescaleOp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -47,7 +48,7 @@ public class GroupsServiceImpl implements GroupsService {
             public Predicate toPredicate(Root<Groups> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicateList = new ArrayList<>();
                 if (userPageDTO.getGroupId() > 0 ){
-                    predicateList.add(criteriaBuilder.like(root.get("gid"), "%"+userPageDTO.getGroupId()+"%"));
+                    predicateList.add(criteriaBuilder.equal(root.get("gid"), userPageDTO.getGroupId()));
                 }
                 if (myString.isNotEmpty(userPageDTO.getGroupName())){
                     predicateList.add(criteriaBuilder.like(root.get("gName"), "%" + userPageDTO.getGroupName()+"%"));
@@ -69,5 +70,13 @@ public class GroupsServiceImpl implements GroupsService {
     public Groups addGroups(Groups groups) {
 
         return groupsDao.saveAndFlush(groups);
+    }
+
+    @Override
+    public ResResult getGroupsOptions() {
+
+        List<Groups> list = groupsDao.findAll();
+
+        return ResCode.OK.putData("content", list);
     }
 }

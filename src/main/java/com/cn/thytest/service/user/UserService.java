@@ -18,5 +18,5 @@ import java.io.UnsupportedEncodingException;
 public interface UserService {
     Page<GroupsMemerDTO> getUserListData(UserPageDTO userPageDTO);
 
-    ResResult addUser(User user) throws UnsupportedEncodingException;
+    ResResult saveUser(GroupsMemerDTO groupsMemerDTO) throws UnsupportedEncodingException;
 }

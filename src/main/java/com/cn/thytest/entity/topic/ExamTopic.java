@@ -32,6 +32,21 @@ public class ExamTopic {
     @Column(columnDefinition = "TINYINT(4) UNSIGNED DEFAULT 0 NULL COMMENT '状态：0 正常，1 过时不用'")
     private Integer status;
 
+    @Column(columnDefinition = "varchar(2000) DEFAULT NULL COMMENT '选项A'")
+    private String optionA;
+    @Column(columnDefinition = "varchar(2000) DEFAULT NULL COMMENT '选项B'")
+    private String optionB;
+    @Column(columnDefinition = "varchar(2000) DEFAULT NULL COMMENT '选项B'")
+    private String optionC;
+    @Column(columnDefinition = "varchar(2000) DEFAULT NULL COMMENT '选项D'")
+    private String optionD;
+    @Column(columnDefinition = "varchar(2000) DEFAULT NULL COMMENT '选项E'")
+    private String optionE;
+    @Column(columnDefinition = "varchar(2000) DEFAULT NULL COMMENT '选项F'")
+    private String optionF;
+    @Column(columnDefinition = "varchar(2000) DEFAULT NULL COMMENT '选项G'")
+    private String optionG;
+
     @Column(columnDefinition = "varchar(4000) NOT NULL COMMENT '正确答案'")
     private String tpCorrectAnswer;
 

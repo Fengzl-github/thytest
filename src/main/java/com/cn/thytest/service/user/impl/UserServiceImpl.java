@@ -6,9 +6,11 @@ import com.cn.common.jpa.vo.Pageparam;
 import com.cn.common.utils.myString;
 import com.cn.common.vo.ResCode;
 import com.cn.common.vo.ResResult;
+import com.cn.thytest.dao.user.GroupMemberDao;
 import com.cn.thytest.dao.user.UserDao;
 import com.cn.thytest.dto.user.GroupsMemerDTO;
 import com.cn.thytest.dto.user.UserPageDTO;
+import com.cn.thytest.entity.login.GroupMember;
 import com.cn.thytest.entity.login.User;
 import com.cn.thytest.service.user.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +34,8 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     private UserDao userDao;
+    @Resource
+    private GroupMemberDao groupMemberDao;
 
     @Autowired
     private JpaUtil jpaUtil;
@@ -66,12 +70,30 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public ResResult addUser(User user) throws UnsupportedEncodingException {
-        if (myString.isNotEmpty(user.getUid())){
-            user.setPwd(myString.base64Encode(user.getPwd()));
-            userDao.saveAndFlush(user);
-        }
+    public ResResult saveUser(GroupsMemerDTO groupsMemerDTO) throws UnsupportedEncodingException {
+        if (myString.isNotEmpty(groupsMemerDTO.getUser().getUid())){
+            User byUid = userDao.findByUid(groupsMemerDTO.getUser().getUid());
+            byUid.setUid(groupsMemerDTO.getUser().getUid());
+            byUid.setLoginName(groupsMemerDTO.getUser().getLoginName());
+            byUid.setUName(groupsMemerDTO.getUser().getUName());
+            byUid.setTel(groupsMemerDTO.getUser().getTel());
+            byUid.setEmail(groupsMemerDTO.getUser().getEmail());
+            byUid.setSex(groupsMemerDTO.getUser().getSex());
+            byUid.setAge(groupsMemerDTO.getUser().getAge());
+            byUid.setAddr(groupsMemerDTO.getUser().getAddr());
+            if (myString.isEmpty(groupsMemerDTO.getUser().getPwd())){
+                //新增用户添加默认密码
+                byUid.setPwd(myString.base64Encode("1234"));
+            }
+            userDao.saveAndFlush(byUid);
 
-        return ResCode.OK.msg("添加成功");
+            GroupMember groupMember = groupMemberDao.findByUid(byUid.getUid());
+            if (groupMember == null){
+
+            }
+            return ResCode.OK.msg("保存成功");
+        }else {
+            return ResCode.ERROR.msg("uid不能为空");
+        }
     }
 }
