@@ -2,10 +2,7 @@ package com.cn.thytest.entity.login;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * @Author fengzhilong
@@ -18,7 +15,9 @@ import javax.persistence.Table;
 public class GroupMember {
 
     @Id
-    @Column(columnDefinition = "int(4) UNSIGNED NOT NULL COMMENT '主键id'")
+    @GeneratedValue(
+            strategy = GenerationType.IDENTITY
+    )
     private Integer id;
 
     @Column(columnDefinition = "int(4) UNSIGNED NOT NULL COMMENT '组号'")

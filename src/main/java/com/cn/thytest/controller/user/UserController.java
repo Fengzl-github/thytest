@@ -4,7 +4,6 @@ import com.cn.common.vo.ResCode;
 import com.cn.common.vo.ResResult;
 import com.cn.thytest.dto.user.GroupsMemerDTO;
 import com.cn.thytest.dto.user.UserPageDTO;
-import com.cn.thytest.entity.login.User;
 import com.cn.thytest.service.user.GroupsService;
 import com.cn.thytest.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,25 +44,28 @@ public class UserController {
     public ResResult getUserListData(@RequestBody UserPageDTO userPageDTO){
         Page<GroupsMemerDTO> page = userService.getUserListData(userPageDTO);
 
-        List<UserPageDTO> list = new ArrayList<>();
-        List<GroupsMemerDTO> cont = page.getContent();
-        for (GroupsMemerDTO content : cont){
+        //List<UserPageDTO> list = new ArrayList<>();
+        List<GroupsMemerDTO> list = page.getContent();
+        /*for (GroupsMemerDTO content : cont){
             UserPageDTO userPageDTO1 = new UserPageDTO();
-            userPageDTO1.setUid(content.getUser().getUid());
-            userPageDTO1.setUname(content.getUser().getUName());
-            userPageDTO1.setPwd(content.getUser().getPwd());
-            userPageDTO1.setAge(content.getUser().getAge());
-            userPageDTO1.setSex(content.getUser().getSex());
-            userPageDTO1.setIsDel(content.getUser().getIsDel());
-            if (content.getGroupMember() != null){
-                userPageDTO1.setGroupId(content.getGroupMember().getGid());
-                userPageDTO1.setGroupName(content.getGroupMember().getGName());
-                userPageDTO1.setRole(content.getGroupMember().getRole());
+            userPageDTO1.setUid(content.getUid());
+            userPageDTO1.setUname(content.getUName());
+            userPageDTO1.setPwd(content.getPwd());
+            userPageDTO1.setAge(content.getAge());
+            userPageDTO1.setSex(content.getSex());
+            userPageDTO1.set(content.getSex());
+            userPageDTO1.setIsDel(content.getIsDel());
+
+            if (content.getGid() != null){
+                userPageDTO1.setGroupId(content.getGid());
             }
+            userPageDTO1.setGroupName(content.getGName());
+
+            userPageDTO1.setRole(content.getRole());
 
             list.add(userPageDTO1);
 
-        }
+        }*/
         return ResCode.OK
                 .putData("content", list)
                 .putData("tatol", page.getTotalElements());

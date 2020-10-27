@@ -7,11 +7,11 @@ var myEl = (function () {
         let title ;
         let type ;
         if (status == 200){
-            title = "成功";
-            type = "success";
+            title = '成功';
+            type = 'success';
         }else {
-            title = "失败";
-            type = "error";
+            title = '失败';
+            type = 'error';
         }
         const h = vm.$createElement;
         vm.$notify({

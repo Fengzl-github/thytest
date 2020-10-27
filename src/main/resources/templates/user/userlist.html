@@ -10,6 +10,7 @@
     <script type="text/javascript" th:src="@{/common/axios/axios.min.js}"></script>
     <script type="text/javascript" th:src="@{/common/myutil/axios_util.js}"></script>
     <script type="text/javascript" th:src="@{/common/myutil/my_util.js}"></script>
+    <script type="text/javascript" th:src="@{/common/myutil/myEl.js}"></script>
 </head>
 <body>
     <div id="appVM" v-cloak>
@@ -39,9 +40,16 @@
                 <el-table-column prop="uname" label="姓名"></el-table-column>
                 <el-table-column prop="tel" label="电话"></el-table-column>
                 <el-table-column prop="email" label="邮箱"></el-table-column>
+                <el-table-column prop="role" label="角色">
+                    <template slot-scope="scope">
+                        <span v-if="scope.row.role == 1">普通</span>
+                        <span v-if="scope.row.role == 2">管理员</span>
+                        <span v-if="scope.row.role == 3">超管</span>
+                    </template>
+                </el-table-column>
                 <el-table-column prop="sex" label="性别"></el-table-column>
                 <el-table-column prop="age" label="年龄"></el-table-column>
-                <el-table-column prop="groupName" label="所在组"></el-table-column>
+                <el-table-column prop="gname" label="所在组"></el-table-column>
                 <el-table-column prop="addr" label="地址"></el-table-column>
                 <el-table-column prop="isDel" label="状态">
                     <template slot-scope="scope">
@@ -87,6 +95,16 @@
                     <el-form-item label="邮箱">
                         <el-input class="fromInput" v-model="EditForm.email"></el-input>
                     </el-form-item>
+                    <el-form-item label="角色">
+                        <el-select v-model="EditForm.role">
+                            <el-option
+                                    v-for="item in roleOptions"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
                     <el-form-item label="性别">
                         <el-input class="fromInput" v-model="EditForm.sex"></el-input>
                     </el-form-item>
@@ -94,7 +112,7 @@
                         <el-input class="fromInput" v-model="EditForm.age"></el-input>
                     </el-form-item>
                     <el-form-item label="所在组">
-                        <el-select v-model="EditForm.groupId">
+                        <el-select v-model="EditForm.gid">
                             <el-option
                                     v-for="item in gIdoptions"
                                     :key="item.gid"
@@ -142,7 +160,8 @@
             drawer: false
         },
         EditForm: {},
-        gIdoptions:[]
+        gIdoptions:[],
+        roleOptions: [{"value":1, "label":"普通"},{"value":2, "label":"管理员"},{"value":3, "label":"超管"}]
 
     };
 
@@ -223,21 +242,18 @@
     }
     
     function handleClose(done) {
-        /*vm.$confirm('确认关闭？')
-            .then(_=> {
-
-            })
-            .catch(_=>{});*/
         done();
     }
 
-    function saveData() {
-        console.log("保存");
+    function saveData(done) {
         axios.post("/user/saveUser",vData.EditForm)
             .then(function (response) {
                 let lret = response.data;
-                console.log("lret== "+lret);
-                myEl.elAlert(lret.data.code, lret.data.msg);
+                console.log("lret== ",lret);
+                if (lret.code == 200){
+                    done()
+                }
+                myEl.elAlert(lret.code, lret.msg);
             })
             .catch(function (error) {
 

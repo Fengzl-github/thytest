@@ -23,8 +23,6 @@ public interface GroupMemberDao extends JpaRepository<GroupMember, Integer> {
     Integer updateMemberDataByuid(@Param("uid") String uid, @Param("role") Integer role, @Param("uName") String uName);
 
 
-
-
     //根据gid修改数据
     @Transactional
     @Modifying
