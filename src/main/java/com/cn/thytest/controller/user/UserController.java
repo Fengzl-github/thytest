@@ -1,18 +1,18 @@
 package com.cn.thytest.controller.user;
 
+import com.cn.common.utils.OutputToExcel;
 import com.cn.common.vo.ResCode;
 import com.cn.common.vo.ResResult;
+import com.cn.thytest.annotation.PassToken;
 import com.cn.thytest.dto.user.GroupsMemerDTO;
 import com.cn.thytest.dto.user.UserPageDTO;
 import com.cn.thytest.service.user.GroupsService;
 import com.cn.thytest.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,30 +44,10 @@ public class UserController {
     public ResResult getUserListData(@RequestBody UserPageDTO userPageDTO){
         Page<GroupsMemerDTO> page = userService.getUserListData(userPageDTO);
 
-        //List<UserPageDTO> list = new ArrayList<>();
         List<GroupsMemerDTO> list = page.getContent();
-        /*for (GroupsMemerDTO content : cont){
-            UserPageDTO userPageDTO1 = new UserPageDTO();
-            userPageDTO1.setUid(content.getUid());
-            userPageDTO1.setUname(content.getUName());
-            userPageDTO1.setPwd(content.getPwd());
-            userPageDTO1.setAge(content.getAge());
-            userPageDTO1.setSex(content.getSex());
-            userPageDTO1.set(content.getSex());
-            userPageDTO1.setIsDel(content.getIsDel());
 
-            if (content.getGid() != null){
-                userPageDTO1.setGroupId(content.getGid());
-            }
-            userPageDTO1.setGroupName(content.getGName());
-
-            userPageDTO1.setRole(content.getRole());
-
-            list.add(userPageDTO1);
-
-        }*/
         return ResCode.OK
-                .putData("content", list)
+                .putData("content", page.getContent())
                 .putData("tatol", page.getTotalElements());
 
 
@@ -96,5 +76,14 @@ public class UserController {
     @PostMapping("/saveUser")
     public ResResult saveUser(@RequestBody GroupsMemerDTO groupsMemerDTO) throws UnsupportedEncodingException {
         return userService.saveUser(groupsMemerDTO);
+    }
+
+
+    @PassToken
+    @GetMapping("/download")
+    public ResResult outPutExcel(HttpServletRequest request){
+        OutputToExcel.downThisPage("用户列表", "测试", null, null);
+
+        return ResCode.OK.msg("下载成功");
     }
 }
