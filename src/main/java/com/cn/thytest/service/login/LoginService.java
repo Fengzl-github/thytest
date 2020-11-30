@@ -15,7 +15,7 @@ import java.io.UnsupportedEncodingException;
 public interface LoginService {
 
     //登录
-    ResResult verification(User user) throws UnsupportedEncodingException;
+    ResResult verification(User user);
 
     //验证token
     ResResult getPmagent(String strPostData);

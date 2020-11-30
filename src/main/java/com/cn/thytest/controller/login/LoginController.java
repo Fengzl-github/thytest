@@ -35,7 +35,7 @@ public class LoginController {
     **/
     @PassToken
     @PostMapping("/verification")
-    public ResResult verification(@RequestBody User user) throws FzlException, UnsupportedEncodingException {
+    public ResResult verification(@RequestBody User user) throws FzlException {
 
         return loginService.verification(user);
     }

@@ -35,7 +35,7 @@ public class LoginServiceImpl implements LoginService {
      * @return com.cn.common.vo.ResResult
     **/
     @Override
-    public ResResult verification(User user) throws FzlException, UnsupportedEncodingException {
+    public ResResult verification(User user) throws FzlException {
 
         User content = loginDao.findByUidAndPwd(user.getUid(), myString.base64Encode(user.getPwd()));
         if (content == null){
