@@ -4,7 +4,7 @@ import com.cn.common.exception.FzlException;
 import com.cn.common.jpa.util.PageUtil;
 import com.cn.common.jpa.vo.Pageparam;
 import com.cn.common.utils.DateTime;
-import com.cn.common.utils.myString;
+import com.cn.common.utils.MyString;
 import com.cn.common.vo.ResCode;
 import com.cn.common.vo.ResResult;
 import com.cn.thytest.dao.topic.ExamTopicDao;
@@ -49,10 +49,10 @@ public class ExamTopicServiceImpl implements ExamTopicService {
             @Override
             public Predicate toPredicate(Root<ExamTopic> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicateList = new ArrayList<>();
-                if (myString.isNotEmpty(examTopic.getTpName())){
+                if (MyString.isNotEmpty(examTopic.getTpName())){
                     predicateList.add(criteriaBuilder.like(root.get("tpName"), "%"+examTopic.getTpName()+"%"));
                 }
-                if (myString.isNotEmpty(examTopic.getFounder())){
+                if (MyString.isNotEmpty(examTopic.getFounder())){
                     predicateList.add(criteriaBuilder.like(root.get("founder"), "%"+examTopic.getFounder()+"%"));
                 }
 
@@ -70,7 +70,7 @@ public class ExamTopicServiceImpl implements ExamTopicService {
     @Override
     public ResResult removeTopic(ExamTopicDTO examTopicDTO) throws FzlException{
 
-        if (myString.isNotEmpty(examTopicDTO.getTpId())){
+        if (MyString.isNotEmpty(examTopicDTO.getTpId())){
             int nRemove = examTopicDao.removeTopic(examTopicDTO.getTpId(), examTopicDTO.getStatus());
             if (nRemove == 1){
                 return ResCode.OK.msg("操作成功！");
@@ -85,7 +85,7 @@ public class ExamTopicServiceImpl implements ExamTopicService {
     @Override
     public ResResult deleteTopic(ExamTopicDTO examTopicDTO) throws FzlException{
 
-        if (myString.isNotEmpty(examTopicDTO.getTpId())){
+        if (MyString.isNotEmpty(examTopicDTO.getTpId())){
             int nRemove = examTopicDao.deleteTopic(examTopicDTO.getTpId());
             if (nRemove == 1){
                 return ResCode.OK.msg("删除成功！");
@@ -101,8 +101,8 @@ public class ExamTopicServiceImpl implements ExamTopicService {
     public ResResult addTopic(ExamTopic examTopic) throws FzlException {
 
         //新增
-        if (myString.isEmpty(examTopic)){
-            examTopic.setTpId(DateTime.Now().ToString("yyyyMMddHHmmss")+ myString.getRandom(4));
+        if (MyString.isEmpty(examTopic)){
+            examTopic.setTpId(DateTime.Now().ToString("yyyyMMddHHmmss")+ MyString.getRandom(4));
             examTopic.setUid("8600");
         }
         ExamTopic examTopic1 = examTopicDao.saveAndFlush(examTopic);

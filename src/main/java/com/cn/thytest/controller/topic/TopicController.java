@@ -23,14 +23,13 @@ public class TopicController {
     @Autowired
     private ExamTopicService examTopicService;
 
-    /*
-    *
+    /**
      * @Author fengzhilong
      * @Desc //TODO 获取全类型题库
      * @Date 2020/9/30 18:23
-     * @Param [examTopicDTO]
+     * @param examTopicDTO
      * @return com.cn.common.vo.ResResult
-    **/
+     **/
     @PostMapping("/getexamtopiclist")
     public ResResult getExamTopicList(@RequestBody ExamTopicDTO examTopicDTO) throws FzlException {
 
@@ -45,9 +44,9 @@ public class TopicController {
      * @Date 2020/10/9 15:21
      * @Param [tpId]
      * @return com.cn.common.vo.ResResult
-    **/
+     **/
     @PostMapping("/removetopic")
-    public ResResult removeTopic(@RequestBody ExamTopicDTO examTopicDTO) throws FzlException{
+    public ResResult removeTopic(@RequestBody ExamTopicDTO examTopicDTO) throws FzlException {
 
         return examTopicService.removeTopic(examTopicDTO);
 
@@ -60,9 +59,9 @@ public class TopicController {
      * @Date 2020/10/9 15:26
      * @Param [tpId]
      * @return com.cn.common.vo.ResResult
-    **/
+     **/
     @PostMapping("/deletetopic")
-    public ResResult deleteTopic(@RequestBody ExamTopicDTO examTopicDTO) throws FzlException{
+    public ResResult deleteTopic(@RequestBody ExamTopicDTO examTopicDTO) throws FzlException {
 
         return examTopicService.deleteTopic(examTopicDTO);
 
@@ -75,9 +74,9 @@ public class TopicController {
      * @Date 2020/10/9 15:46
      * @Param [examTopic]
      * @return com.cn.common.vo.ResResult
-    **/
+     **/
     @PostMapping("/addtopic")
-    public ResResult addTopic(@RequestBody ExamTopic examTopic) throws FzlException{
+    public ResResult addTopic(@RequestBody ExamTopic examTopic) throws FzlException {
 
         return examTopicService.addTopic(examTopic);
 

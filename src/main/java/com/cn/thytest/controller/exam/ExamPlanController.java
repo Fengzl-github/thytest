@@ -24,6 +24,7 @@ public class ExamPlanController {
     private ExamPlanService examPlanService;
 
 
+    /*计划列表*/
     @PostMapping("/getExamPlanList")
     public ResResult getExamPlanList(ExamPlanDTO examPlanDTO){
 

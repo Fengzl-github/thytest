@@ -3,7 +3,7 @@ package com.cn.thytest.service.user.impl;
 import com.cn.common.jpa.util.JpaUtil;
 import com.cn.common.jpa.util.PageUtil;
 import com.cn.common.jpa.vo.Pageparam;
-import com.cn.common.utils.myString;
+import com.cn.common.utils.MyString;
 import com.cn.common.vo.ResCode;
 import com.cn.common.vo.ResResult;
 import com.cn.thytest.dao.user.GroupMemberDao;
@@ -53,11 +53,11 @@ public class UserServiceImpl implements UserService {
                 "where 1=1 ";
 
         Map<String, Object> params = new HashMap<>();
-        if (myString.isNotEmpty(userPageDTO.getUid())){
+        if (MyString.isNotEmpty(userPageDTO.getUid())) {
             hql += "and u.uid=:uid ";
             params.put("uid", userPageDTO.getUid());
         }
-        if (myString.isNotEmpty(userPageDTO.getUname())){
+        if (MyString.isNotEmpty(userPageDTO.getUname())) {
             hql += "and u.uName=:uName ";
             params.put("uName", userPageDTO.getUname());
         }
@@ -67,15 +67,14 @@ public class UserServiceImpl implements UserService {
         Pageable pageable = PageUtil.getPageable(pageparam.getCurrentPage(), pageparam.getPagesize(), "u.uid");
         Page<GroupsMemerDTO> page = jpaUtil.page(hql, params, pageable, GroupsMemerDTO.class);
 
-       return page;
+        return page;
 
     }
 
 
-
     @Override
     public ResResult saveUser(GroupsMemerDTO groupsMemerDTO) throws UnsupportedEncodingException {
-        if (myString.isNotEmpty(groupsMemerDTO.getUid())){
+        if (MyString.isNotEmpty(groupsMemerDTO.getUid())) {
             User byUid = userDao.findByUid(groupsMemerDTO.getUid());
             if (byUid == null) byUid = new User();
             byUid.setUid(groupsMemerDTO.getUid());
@@ -86,14 +85,14 @@ public class UserServiceImpl implements UserService {
             byUid.setSex(groupsMemerDTO.getSex());
             byUid.setAge(groupsMemerDTO.getAge());
             byUid.setAddr(groupsMemerDTO.getAddr());
-            if (myString.isEmpty(groupsMemerDTO.getPwd())){
+            if (MyString.isEmpty(groupsMemerDTO.getPwd())) {
                 //新增用户添加默认密码
-                byUid.setPwd(myString.base64Encode("1234"));
+                byUid.setPwd(MyString.base64Encode("1234"));
             }
             userDao.saveAndFlush(byUid);
 
             /*如果选择了组，更新中间表*/
-            if (groupsMemerDTO.getGid() != null){
+            if (groupsMemerDTO.getGid() != null) {
                 GroupMember groupMember = groupMemberDao.findByUid(byUid.getUid());
                 if (groupMember == null) groupMember = new GroupMember();
                 groupMember.setGid(groupsMemerDTO.getGid());
@@ -107,7 +106,7 @@ public class UserServiceImpl implements UserService {
                 groupMemberDao.saveAndFlush(groupMember);
             }
             return ResCode.OK.msg("保存成功");
-        }else {
+        } else {
             return ResCode.ERROR.msg("uid不能为空");
         }
     }

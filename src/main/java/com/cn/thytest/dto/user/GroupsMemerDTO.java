@@ -1,6 +1,6 @@
 package com.cn.thytest.dto.user;
 
-import com.cn.common.utils.myString;
+import com.cn.common.utils.MyString;
 import com.cn.thytest.entity.login.GroupMember;
 import com.cn.thytest.entity.login.Groups;
 import com.cn.thytest.entity.login.User;
@@ -38,7 +38,7 @@ public class GroupsMemerDTO {
 
     public GroupsMemerDTO(User user, Groups group, GroupMember groupMember) {
         this.uid = user.getUid();
-        if (myString.isNotEmpty(user.getLoginName())){
+        if (MyString.isNotEmpty(user.getLoginName())){
             this.loginName = user.getLoginName();
         }
         this.uName = user.getUName();

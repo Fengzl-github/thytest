@@ -1,6 +1,6 @@
 package com.cn.thytest.controller.user;
 
-import com.cn.common.utils.myString;
+import com.cn.common.utils.MyString;
 import com.cn.common.vo.ResCode;
 import com.cn.common.vo.ResResult;
 import com.cn.thytest.dto.user.UserPageDTO;
@@ -33,7 +33,7 @@ public class GroupsController {
     @RequestMapping("/addGroups")
     public ResResult addGroups(@RequestBody Groups groups){
 
-        if (groups.getGid() != null && groups.getGid() > 0 && myString.isNotEmpty(groups.getGName())){
+        if (groups.getGid() != null && groups.getGid() > 0 && MyString.isNotEmpty(groups.getGName())){
             groupsService.addGroups(groups);
             return ResCode.OK.msg("保存成功");
         }else {

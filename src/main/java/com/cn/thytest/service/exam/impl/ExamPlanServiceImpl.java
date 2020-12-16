@@ -2,7 +2,7 @@ package com.cn.thytest.service.exam.impl;
 
 import com.cn.common.jpa.util.PageUtil;
 import com.cn.common.utils.DateTime;
-import com.cn.common.utils.myString;
+import com.cn.common.utils.MyString;
 import com.cn.common.vo.ResCode;
 import com.cn.common.vo.ResResult;
 import com.cn.thytest.dao.exam.ExamPlanDao;
@@ -43,10 +43,10 @@ public class ExamPlanServiceImpl implements ExamPlanService {
             public Predicate toPredicate(Root<ExamPlan> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 
                 List<Predicate> predicateList = new ArrayList<>();
-                if (myString.isNotEmpty(examPlanDTO.getPlanName())){
+                if (MyString.isNotEmpty(examPlanDTO.getPlanName())){
                     predicateList.add(criteriaBuilder.like(root.get("planName"), "%"+examPlanDTO.getPlanName()+"%"));
                 }
-                if (myString.isNotEmpty(examPlanDTO.getOperator())){
+                if (MyString.isNotEmpty(examPlanDTO.getOperator())){
                     predicateList.add(criteriaBuilder.like(root.get("operator"), "%"+examPlanDTO.getOperator()+"%"));
                 }
                 return criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()]));
@@ -66,13 +66,13 @@ public class ExamPlanServiceImpl implements ExamPlanService {
     public ResResult saveExamPlan(ExamPlan examPlan) {
         if (examPlan != null) {
             //修改
-            if (myString.isNotEmpty(examPlan.getPlanId())) {
+            if (MyString.isNotEmpty(examPlan.getPlanId())) {
                 ExamPlan byPlanId = examPlanDao.findByPlanId(examPlan.getPlanId());
                 //添加主键id
                 examPlan.setId(byPlanId.getId());
             } else { //新增
                 //添加planId
-                String planId = "P" + DateTime.Now().ToString("yyyyMMddHHmmss") + myString.getRandom(4);
+                String planId = "P" + DateTime.Now().ToString("yyyyMMddHHmmss") + MyString.getRandom(4);
                 examPlan.setPlanId(planId);
                 examPlan.setCreateTime(DateTime.Now().ToString("yyyyMMddHHmmss"));
             }
@@ -86,7 +86,7 @@ public class ExamPlanServiceImpl implements ExamPlanService {
 
     @Override
     public ResResult delExamPlan(String planId) {
-        if (myString.isNotEmpty(planId)){
+        if (MyString.isNotEmpty(planId)){
 
             examPlanDao.delExamPlan(planId);
 

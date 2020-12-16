@@ -1,30 +1,38 @@
 package com.cn.thytest;
 
-import com.cn.common.utils.DateTime;
-import com.cn.common.utils.myString;
-import com.cn.thytest.service.user.GroupsService;
+
+import com.cn.common.vo.ResResult;
+import com.cn.thytest.dto.exam.ExamPlanDTO;
+import com.cn.thytest.service.exam.ExamPlanService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.io.UnsupportedEncodingException;
 
 @SpringBootTest
 class ThytestApplicationTests {
 
     @Autowired
-    private GroupsService groupsService;
-
+    private ExamPlanService examPlanService;
 
     @Test
-    void contextLoads() throws UnsupportedEncodingException {
+    void contextLoads() {
 
-        /*Groups groups = new Groups();
-        groups.setGid(4);
-        groups.setGName("业务组4444");
-        groupsService.addGroups(groups);*/
-        String s = myString.base64Encode("1234");
-        System.out.println(s);
+        //添加、修改考试计划
+       /* ExamPlan examPlan = new ExamPlan();
+        examPlan.setPlanName("考试计划3");
+        examPlan.setPlanStarttime("20201130140000");
+        examPlan.setPlanEndtime("20201130160000");
+        examPlan.setOperator("超管");
+        ResResult resResult = examPlanService.saveExamPlan(examPlan);
+        System.out.println(resResult.getCode()+"----->");*/
+        /*ResResult resResult = examPlanService.delExamPlan("P202011301717107524");
+        System.out.println(resResult.getCode()+"----->");*/
+        ExamPlanDTO examPlanDTO = new ExamPlanDTO();
+        examPlanDTO.setCurrentPage(0);
+        examPlanDTO.setPagesize(10);
+
+        ResResult examPlanList = examPlanService.getExamPlanList(examPlanDTO);
+        System.out.println(examPlanList.getData("content"));
 
     }
 

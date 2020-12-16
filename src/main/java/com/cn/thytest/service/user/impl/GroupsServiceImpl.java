@@ -3,7 +3,7 @@ package com.cn.thytest.service.user.impl;
 import com.alibaba.fastjson.util.TypeUtils;
 import com.cn.common.jpa.util.PageUtil;
 import com.cn.common.jpa.vo.Pageparam;
-import com.cn.common.utils.myString;
+import com.cn.common.utils.MyString;
 import com.cn.common.vo.ResCode;
 import com.cn.common.vo.ResResult;
 import com.cn.thytest.dao.user.GroupsDao;
@@ -50,7 +50,7 @@ public class GroupsServiceImpl implements GroupsService {
                 if (userPageDTO.getGroupId() > 0 ){
                     predicateList.add(criteriaBuilder.equal(root.get("gid"), userPageDTO.getGroupId()));
                 }
-                if (myString.isNotEmpty(userPageDTO.getGroupName())){
+                if (MyString.isNotEmpty(userPageDTO.getGroupName())){
                     predicateList.add(criteriaBuilder.like(root.get("gName"), "%" + userPageDTO.getGroupName()+"%"));
                 }
                 return criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()]));

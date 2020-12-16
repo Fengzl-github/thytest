@@ -32,7 +32,7 @@ public class ThytestApplication {
      *
      * @return HttpMessageConverters
      */
-    /*@Bean
+    @Bean
     public HttpMessageConverters fastJsonHttpMessageConverters() {
         // 1.需要定义一个convert转换消息的对象;
         FastJsonHttpMessageConverter fastJsonHttpMessageConverter = new FastJsonHttpMessageConverter();
@@ -50,6 +50,6 @@ public class ThytestApplication {
         HttpMessageConverter<?> converter = fastJsonHttpMessageConverter;
         return new HttpMessageConverters(converter);
 
-    }*/
+    }
 
 }

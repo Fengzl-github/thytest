@@ -39,12 +39,10 @@ public class UserController {
      * @Date 2020/10/12 14:32
      * @Param [userPageDTO]
      * @return com.cn.common.vo.ResResult
-    **/
+     **/
     @PostMapping("/getuserlistdata")
-    public ResResult getUserListData(@RequestBody UserPageDTO userPageDTO){
+    public ResResult getUserListData(@RequestBody UserPageDTO userPageDTO) {
         Page<GroupsMemerDTO> page = userService.getUserListData(userPageDTO);
-
-        List<GroupsMemerDTO> list = page.getContent();
 
         return ResCode.OK
                 .putData("content", page.getContent())
@@ -59,10 +57,10 @@ public class UserController {
      * @Date 2020/10/21 16:15
      * @Param []
      * @return com.cn.common.vo.ResResult
-    **/
+     **/
     @RequestMapping("/getGroupsData")
-    public ResResult getGroupsData(){
-        
+    public ResResult getGroupsData() {
+
         return groupsService.getGroupsOptions();
     }
 
@@ -72,7 +70,7 @@ public class UserController {
      * @Date 2020/10/12 14:36
      * @Param [userPageDTO]
      * @return com.cn.common.vo.ResResult
-    **/
+     **/
     @PostMapping("/saveUser")
     public ResResult saveUser(@RequestBody GroupsMemerDTO groupsMemerDTO) throws UnsupportedEncodingException {
         return userService.saveUser(groupsMemerDTO);
@@ -81,7 +79,7 @@ public class UserController {
 
     @PassToken
     @GetMapping("/download")
-    public ResResult outPutExcel(HttpServletRequest request){
+    public ResResult outPutExcel(HttpServletRequest request) {
         OutputToExcel.downThisPage("用户列表", "测试", null, null);
 
         return ResCode.OK.msg("下载成功");
